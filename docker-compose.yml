@@ -4,7 +4,7 @@ services:
   ui:
     image: node:15.8.0
     working_dir: /app
-    command: npm run dev
+    command: npm start
     #command: sleep infinity
     user: node
     volumes:

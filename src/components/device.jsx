@@ -1,6 +1,6 @@
 import React from 'react';
 import { view } from '@risingstack/react-easy-state';
-import { ListItem, Icon, SwipeoutActions, SwipeoutButton, AccordionContent } from 'framework7-react';
+import { ListItem, Icon, SwipeoutActions, SwipeoutButton, AccordionContent, Badge } from 'framework7-react';
 
 export default view(({ device, f7router }) => {
   console.log("Rendering", device)
@@ -19,18 +19,24 @@ export default view(({ device, f7router }) => {
   const DeviceStats = 'deviceStats' in device ? device.deviceStats() : null
   const DeviceControls = 'deviceControls' in device ? device.deviceControls() : null
 
+  const noImageUrl = null
+  const groupColor = 'grey'
+  const groupName = null
+
   return (
     <ListItem
       noChevron
-      badgeColor={hub.color()}
-      badge={hub.name}
+      badgeColor={groupColor}
+      badge={groupName}
       swipeout
       mediaItem
-      accordionItem
       key={device.id}
       slot="list"
     >
-      {device.imageUrl && (<img className="device-image" src={device.imageUrl} slot="media"/>)}
+      <div slot="media">
+        <Badge className="badge-overlay" color={hub.color()}>{hub.name}</Badge>
+        <img className="device-image" src={device.imageUrl} />
+      </div>
       <div slot="title">{device.id}</div>
       <div slot="subtitle">{device.name}</div>
       {DeviceStats && (<DeviceStats device={device} f7router={f7router} slot="text"/>)}

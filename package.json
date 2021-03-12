@@ -8,7 +8,7 @@
   "scripts": {
     "start": "npm run dev",
     "dev": "./node_modules/.bin/parcel serve --host 0.0.0.0 --port 8080 ./src/index.html",
-    "build": "./node_modules/.bin/parcel build ./src/index.html"
+    "build": "./node_modules/.bin/parcel build --no-scope-hoist ./src/index.html"
   },
   "browserslist": [
     "Android >= 7",

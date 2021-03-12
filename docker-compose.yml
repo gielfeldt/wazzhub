@@ -1,0 +1,15 @@
+version: '3.5'
+
+services:
+  ui:
+    image: node:15.8.0
+    working_dir: /app
+    command: npm run dev
+    #command: sleep infinity
+    user: node
+    volumes:
+      - ./:/app
+    ports:
+      - 8080:8080
+      #- 1300:1300
+      #- 3001:3001

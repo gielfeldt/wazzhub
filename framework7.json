@@ -1,0 +1,25 @@
+{
+  "cwd": "/app",
+  "type": [
+    "web"
+  ],
+  "name": "WazzHub",
+  "framework": "react",
+  "template": "tabs",
+  "bundler": "parcel",
+  "webpack": {
+    "developmentSourceMap": true,
+    "productionSourceMap": true,
+    "hashAssets": false,
+    "preserveAssetsPaths": false,
+    "inlineAssets": true
+  },
+  "theming": {
+    "customColor": false,
+    "color": "#007aff",
+    "darkTheme": false,
+    "iconFonts": true,
+    "fillBars": false
+  },
+  "customBuild": false
+}

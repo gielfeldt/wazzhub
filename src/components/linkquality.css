@@ -1,0 +1,293 @@
+
+/*Downloaded from https://www.codeseek.co/Lazyboy/css-wifi-icon-RxqMog */
+@keyframes flash {
+    5% {
+      border-top: #cccccc solid 18px;
+    }
+    30% {
+      border-top: #000 solid 18px;
+    }
+    60% {
+      border-top: #cccccc solid 18px;
+    }
+    90% {
+      border-top: #000 solid 18px;
+    }
+    100% {
+      border-top: #000 solid 18px;
+    }
+  }
+  .wifi_group.xss {
+    transform: scale(0.14, 0.14);
+  }
+  .wifi_group.xs {
+    transform: scale(0.3, 0.3);
+  }
+  
+  .wifi_group.sm {
+    transform: scale(0.7, 0.7);
+  }
+  
+  .wifi_group.md {
+    transform: scale(1, 1);
+  }
+  
+  .wifi_group.lg {
+    transform: scale(1.4, 1.4);
+  }
+  
+  .wifi_group {
+    width: 200px;
+    height: 200px;
+    margin-left: auto;
+    margin-right: auto;
+    overflow: hidden;
+    position: relative;
+    top: -80px;
+    left: -106px;
+  }
+  
+  .wifi_top {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    margin: auto;
+    transform: translateY(40%) scale(1.4, 1.4);
+  }
+  .wifi_top:before, .wifi_top:after {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    margin: auto;
+    content: "";
+    display: block;
+    box-sizing: border-box;
+  }
+  .wifi_top:before {
+    border-radius: 50%;
+    border-top: 18px solid #cccccc;
+    border-bottom: 18px solid transparent;
+    border-right: 18px solid transparent;
+    border-left: 18px solid transparent;
+    height: 200px;
+    width: 200px;
+  }
+  .wifi_top:after {
+    border-radius: 50%;
+    border-top: 18px solid #cccccc;
+    border-bottom: 18px solid transparent;
+    border-right: 18px solid transparent;
+    border-left: 18px solid transparent;
+    height: 150px;
+    width: 150px;
+  }
+  
+  .wifi_bottom {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    margin: auto;
+    transform: translateY(40%) scale(1.4, 1.4);
+  }
+  .wifi_bottom:before, .wifi_bottom:after {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    margin: auto;
+    content: "";
+    display: block;
+    box-sizing: border-box;
+  }
+  .wifi_bottom:before {
+    border-radius: 50%;
+    border-top: 18px solid #cccccc;
+    border-bottom: 18px solid transparent;
+    border-right: 18px solid transparent;
+    border-left: 18px solid transparent;
+    height: 100px;
+    width: 100px;
+  }
+  .wifi_bottom:after {
+    border-radius: 50%;
+    border-top: 18px solid #cccccc;
+    border-bottom: 18px solid transparent;
+    border-right: 18px solid transparent;
+    border-left: 18px solid transparent;
+    height: 50px;
+    width: 50px;
+  }
+  
+  @keyframes show1 {
+    0% {
+      border-top: 18px solid #cccccc;
+    }
+    19.9999% {
+      border-top: 18px solid #cccccc;
+    }
+    20% {
+      border-top: 18px solid #000;
+    }
+    40% {
+      border-top: 18px solid #000;
+    }
+    60% {
+      border-top: 18px solid #000;
+    }
+    80% {
+      border-top: 18px solid #000;
+    }
+    100% {
+      border-top: 18px solid #000;
+    }
+  }
+  @keyframes show2 {
+    0% {
+      border-top: 18px solid #cccccc;
+    }
+    20% {
+      border-top: 18px solid #cccccc;
+    }
+    39.9999% {
+      border-top: 18px solid #cccccc;
+    }
+    40% {
+      border-top: 18px solid #000;
+    }
+    60% {
+      border-top: 18px solid #000;
+    }
+    80% {
+      border-top: 18px solid #000;
+    }
+    100% {
+      border-top: 18px solid #000;
+    }
+  }
+  @keyframes show3 {
+    0% {
+      border-top: 18px solid #cccccc;
+    }
+    20% {
+      border-top: 18px solid #cccccc;
+    }
+    40% {
+      border-top: 18px solid #cccccc;
+    }
+    59.9999% {
+      border-top: 18px solid #cccccc;
+    }
+    60% {
+      border-top: 18px solid #000;
+    }
+    80% {
+      border-top: 18px solid #000;
+    }
+    100% {
+      border-top: 18px solid #000;
+    }
+  }
+  @keyframes show4 {
+    0% {
+      border-top: 18px solid #cccccc;
+    }
+    20% {
+      border-top: 18px solid #cccccc;
+    }
+    40% {
+      border-top: 18px solid #cccccc;
+    }
+    60% {
+      border-top: 18px solid #cccccc;
+    }
+    79.9999% {
+      border-top: 18px solid #cccccc;
+    }
+    80% {
+      border-top: 18px solid #000;
+    }
+    100% {
+      border-top: 18px solid #000;
+    }
+  }
+  .search .wifi_top:before {
+    animation: show4 2s 0s linear infinite;
+  }
+  .search .wifi_top:after {
+    animation: show3 2s 0s linear infinite;
+  }
+  .search .wifi_bottom:before {
+    animation: show2 2s 0s linear infinite;
+  }
+  .search .wifi_bottom:after {
+    animation: show1 2s 0s linear infinite;
+  }
+  
+  .first .wifi_top:before,
+  .first .wifi_top:after,
+  .first .wifi_bottom:before {
+    border-radius: 50%;
+    border-top: 18px solid #cccccc;
+    border-bottom: 18px solid transparent;
+    border-right: 18px solid transparent;
+    border-left: 18px solid transparent;
+  }
+  .first .wifi_bottom:after {
+    border-radius: 50%;
+    border-top: 18px solid #000;
+    border-bottom: 18px solid transparent;
+    border-right: 18px solid transparent;
+    border-left: 18px solid transparent;
+  }
+  
+  .second .wifi_top:before,
+  .second .wifi_top:after {
+    border-radius: 50%;
+    border-top: 18px solid #cccccc;
+    border-bottom: 18px solid transparent;
+    border-right: 18px solid transparent;
+    border-left: 18px solid transparent;
+  }
+  .second .wifi_bottom:before,
+  .second .wifi_bottom:after {
+    border-radius: 50%;
+    border-top: 18px solid #000;
+    border-bottom: 18px solid transparent;
+    border-right: 18px solid transparent;
+    border-left: 18px solid transparent;
+  }
+  
+  .third .wifi_top:before {
+    border-radius: 50%;
+    border-top: 18px solid #cccccc;
+    border-bottom: 18px solid transparent;
+    border-right: 18px solid transparent;
+    border-left: 18px solid transparent;
+  }
+  .third .wifi_top:after,
+  .third .wifi_bottom:before,
+  .third .wifi_bottom:after {
+    border-radius: 50%;
+    border-top: 18px solid #000;
+    border-bottom: 18px solid transparent;
+    border-right: 18px solid transparent;
+    border-left: 18px solid transparent;
+  }
+  
+  .fourth .wifi_top:before,
+  .fourth .wifi_top:after,
+  .fourth .wifi_bottom:before,
+  .fourth .wifi_bottom:after {
+    border-radius: 50%;
+    border-top: 18px solid #000;
+    border-bottom: 18px solid transparent;
+    border-right: 18px solid transparent;
+    border-left: 18px solid transparent;
+  }

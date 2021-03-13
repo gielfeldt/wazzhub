@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { view } from '@risingstack/react-easy-state';
-import { Page, Navbar, List, ListItem, Toggle, ListButton, Actions, ActionsButton, ActionsLabel, ActionsGroup, Icon, Badge, Preloader } from 'framework7-react';
+import { Page, Navbar, List, ListItem, Toggle, ListButton, Actions, ActionsButton, ActionsLabel, ActionsGroup, Icon, Badge, Preloader, SwipeoutActions, SwipeoutButton } from 'framework7-react';
 import wazzhub from '../lib/hubs'
 
 export default view(({ f7router }) => {
@@ -50,6 +50,13 @@ export default view(({ f7router }) => {
     onLocationChange()
   }, [])
 
+  function deleteHub(hub) {
+    const app = f7router.app
+    app.dialog.confirm(`Are you sure you want to delete ${hub.name}?`, 'Delete', () => {
+      wazzhub.deleteHub(hub.id)
+      f7router.back({transition: 'f7-dive'})
+    })
+  }
 
   return (
     <Page name="hubs">
@@ -59,10 +66,11 @@ export default view(({ f7router }) => {
       {wazzhub.all.map((hub) => (
         <ListItem
           mediaItem
+          swipeout
           key={hub.id}
           subtitle={hub.label()}
-          link
-          onClick={() => f7router.navigate(`/hubs/${hub.id}/edit`, {props: { hub: { ...hub }}})}
+          //link
+          //onClick={() => f7router.navigate(`/hubs/${hub.id}/edit`, {props: { hub: { ...hub }}})}
         >
           <Badge slot="title" color={hub.color()}>{hub.name}</Badge>
           {/*<Badge slot="after-title">{hub.connection.connected ? 'connected' : 'not connected'}</Badge>*/}
@@ -75,7 +83,15 @@ export default view(({ f7router }) => {
           {hub.connecting() !== 'ready' && (
             <Preloader slot="media" size={28} color="blue" />
           )}
-          <Toggle slot="after" checked={hub.enabled} onToggleChange={(on) => handleToggle(hub, on)}></Toggle>
+          <Toggle slot="after" defaultChecked={hub.enabled} onToggleChange={(on) => handleToggle(hub, on)}></Toggle>
+          <SwipeoutActions right>
+            <SwipeoutButton color="blue" onClick={() => f7router.navigate(`/hubs/${hub.id}/edit`, {props: { hub: { ...hub }}})}>
+              <Icon ios="f7:square_pencil" aurora="f7:square_pencil" md="f7:square_pencil" />
+            </SwipeoutButton>
+            <SwipeoutButton color="red" onClick={() => deleteHub(hub)}>
+              <Icon ios="f7:trash" aurora="f7:trash" md="f7:trash" />
+            </SwipeoutButton>
+          </SwipeoutActions>
         </ListItem>
       ))}
       </List>

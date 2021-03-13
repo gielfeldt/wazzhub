@@ -74,13 +74,13 @@ export default view(({ f7router, hub, isNew }) => {
       </List>
       <EditHubPage connectionInfo={connectionInfo} onChange={handleConnectionInfoChange}/>
       <List>
-        {!isNew && (<ListButton color="white" bgColor="red" onClick={deleteHub}>
-          <Icon ios="f7:trash" aurora="f7:trash" md="f7:trash" />
-        </ListButton>)}
-        <ListItem divider />
         <ListItem>
           <HubQr url={url} size={300} />
         </ListItem>
+        <ListItem divider />
+        {!isNew && (<ListButton color="white" bgColor="red" onClick={deleteHub}>
+          <Icon ios="f7:trash" aurora="f7:trash" md="f7:trash" />
+        </ListButton>)}
       </List>
     </Page>
   )

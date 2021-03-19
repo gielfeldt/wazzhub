@@ -17,7 +17,9 @@ export default view(({ connectionInfo, onChange }) => {
       <ListInput
           type="text"
           value={address}
-          placeholder="MQTT address (ws://user:pass@mqtt:1234/base-topic)"
+          placeholder="ws://user:pass@mqtt:1234/base-topic"
+          label="MQTT address"
+          floatingLabel
           onInput={handleAddressChanged}
           onChange={handleAddressChanged}
       />

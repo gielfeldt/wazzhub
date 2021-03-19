@@ -67,7 +67,9 @@ export default view(({ f7router, hub, isNew }) => {
         <ListInput
           type="text"
           value={name}
-          placeholder="Name (My hub)"
+          placeholder="My hub"
+          label="Name"
+          floatingLabel
           onInput={handleNameChange}
           onChange={handleNameChange}
         />

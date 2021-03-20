@@ -58,7 +58,7 @@ function sanitizeHub(hub) {
     type: hub.type,
     enabled: hub.enabled ? true : false,
     connected: false,
-    connectionInfo: hub.connectionInfo,
+    connectionInfo: { ...hubTypes[hub.type].connectionInfo(), ...hub.connectionInfo },
     test: false,
   }
 }

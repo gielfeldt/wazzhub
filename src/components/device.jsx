@@ -3,7 +3,7 @@ import { view } from '@risingstack/react-easy-state';
 import { ListItem, Icon, SwipeoutActions, SwipeoutButton, AccordionContent, Badge } from 'framework7-react';
 
 export default view(({ device, f7router }) => {
-  console.log("Rendering", device)
+  //console.log("Rendering", device)
   const hub = device.hub()
 
   function editPage(device) {

@@ -6,16 +6,6 @@ import DevicePage from "./zigbee2mqtt-device.jsx"
 import DeviceStats from "./zigbee2mqtt-device-stats.jsx"
 import DeviceControls from './zigbee2mqtt-device-controls.jsx'
 import objectHash from 'object-hash'
-import DeviceItem from './zigbee2mqtt-device-item.jsx'
-
-/*
-const DeviceItem = (device) => {
-    return (<RealDeviceItem device={device} />)
-}
-*/
-
-//import group from '../../../components/group.jsx'
-//import awaitSleep from 'await-sleep'
 
 function imageUrl(device) {
     var url = null
@@ -31,8 +21,6 @@ function create({hub}) {
 
     const self = store({
         searching: false,
-
-        //client: null,
 
         device: {},
         group: {},
@@ -60,12 +48,13 @@ function create({hub}) {
         },
 
         deviceActions(device) {
-            const topic = 'zigbee2mqtt/' + device.friendly_name + '/set'
+            const baseTopic = hub().connectionInfo.baseTopic
+            //const topic = baseTopic + '/' + device.friendly_name + '/set'
             return {
                 toggleState: () => console.log("toggle state", device.friendly_name),
                 setState: (state) => console.log("set state", device.friendly_name, state),
-                remove: () => client.publish('zigbee2mqtt/bridge/request/device/remove', JSON.stringify({id: device.ieee_address, force: false})),
-                forceRemove: () => client.publish('zigbee2mqtt/bridge/request/device/remove', JSON.stringify({id: device.ieee_address, force: true})),
+                remove: () => client.publish(baseTopic + '/bridge/request/device/remove', JSON.stringify({id: device.ieee_address, force: false})),
+                forceRemove: () => client.publish(baseTopic + '/bridge/request/device/remove', JSON.stringify({id: device.ieee_address, force: true})),
                 rename: (name) => console.log("rename", device.friendly_name, name),
                 retain: (retain) => console.log("retain", device.friendly_name, retain),
             }
@@ -87,29 +76,8 @@ function create({hub}) {
             */
         },
 
-        deviceInfo(z2mDevice) {
-            if (!self.payloads[z2mDevice.friendly_name]) {
-                self.payloads[z2mDevice.friendly_name] = {}
-            }
-            if (!self.options[z2mDevice.ieee_address]) {
-                self.options[z2mDevice.ieee_address] = {}
-            }
-            return {
-                device: () => self.device[z2mDevice.ieee_address] || null,
-                payload: () => self.payloads[z2mDevice.friendly_name] || null,
-                options: () => self.options[z2mDevice.ieee_address] || null,
-            }
-        },
 
         prepareDevice(z2mDevice) {
-            /*
-            if (!self.payloads[z2mDevice.friendly_name]) {
-                self.payloads[z2mDevice.friendly_name] = {}
-            }
-            if (!self.options[z2mDevice.ieee_address]) {
-                self.options[z2mDevice.ieee_address] = {}
-            }
-            */
             return {
                 // Basic info
                 id: z2mDevice.ieee_address,
@@ -123,7 +91,7 @@ function create({hub}) {
                 deviceStats: () => DeviceStats,
                 deviceControls: () => DeviceControls,
 
-                // Interal (private)
+                // Internal (private)
                 //info: () => self.deviceInfo(z2mDevice),
                 actions: () => self.deviceActions(z2mDevice),
                 payload: () => self.payloads[z2mDevice.friendly_name] || null,
@@ -131,19 +99,6 @@ function create({hub}) {
                 supported: z2mDevice.supported,
                 hash: objectHash(z2mDevice),
             }
-            const prepared = {
-                // Public
-                id: device.ieee_address,
-                name: device.friendly_name,
-                isNew: device.ieee_address === device.friendly_name,
-                imageUrl: imageUrl(device),
-                editDevicePage: () => DevicePage,
-                actions: self.deviceActions(device),
-
-                // Private
-                deviceInfo: self.deviceInfo(device),
-            }
-
             prepared.deviceStats = () => DeviceStats
             prepared.deviceControls = () => DeviceControls
 
@@ -151,6 +106,7 @@ function create({hub}) {
         },
 
         prepareGroup(group) {
+            const baseTopic = hub().connectionInfo.baseTopic
             const prepared = {
                 id: group.id,
                 name: group.friendly_name,
@@ -158,8 +114,8 @@ function create({hub}) {
                 devices: group.members.filter(member => self.device[member.ieee_address]).map(member => self.device[member.ieee_address]),
                 z2mGroup: group,
 
-                removeDevice: (device) => client.publish('zigbee2mqtt/bridge/request/group/members/remove', JSON.stringify({group: group.friendly_name, device: device.name})),
-                addDevice: (device) => client.publish('zigbee2mqtt/bridge/request/group/members/add', JSON.stringify({group: group.friendly_name, device: device.name})),
+                removeDevice: (device) => client.publish(baseTopic + '/bridge/request/group/members/remove', JSON.stringify({group: group.friendly_name, device: device.name})),
+                addDevice: (device) => client.publish(baseTopic + '/bridge/request/group/members/add', JSON.stringify({group: group.friendly_name, device: device.name})),
                 //removeDevice: (device) => console.log(JSON.stringify({group: group.friendly_name, device: device.name})),
             }
             return prepared
@@ -170,10 +126,11 @@ function create({hub}) {
         },
 
         subscribe() {
+            const baseTopic = hub().connectionInfo.baseTopic
             client.on("message", async (topic, payload, packet) => {
-                if (topic === 'zigbee2mqtt/bridge/info') {
+                if (topic === baseTopic + '/bridge/info') {
                     const msg = JSON.parse(payload)
-                    console.log(topic, msg)
+                    //console.log(topic, msg)
                     self.searching = msg.permit_join
 
                     const options = {}
@@ -187,7 +144,7 @@ function create({hub}) {
                     self.options = options
                     return
                 }
-                if (topic === 'zigbee2mqtt/bridge/devices') {
+                if (topic === baseTopic + '/bridge/devices') {
                     const msg = JSON.parse(payload)
                     const existingDevices = Object.keys(self.device)
                     const newDevices = msg.map(device => device.ieee_address)
@@ -200,9 +157,9 @@ function create({hub}) {
                     const added = newDevices.filter(id => !existingDevices.includes(id))
                     const updated = newDevices.filter(id => !removed.includes(id) && !added.includes(id))
 
-                    console.log("removed", removed)
-                    console.log("added", added)
-                    console.log("updated", updated)
+                    //console.log("removed", removed)
+                    //console.log("added", added)
+                    //console.log("updated", updated)
 
                     if (removed.length == 0 && updated.length == 0) {
                         // fresh
@@ -254,7 +211,7 @@ function create({hub}) {
 
                     return
                 }
-                if (topic === 'zigbee2mqtt/bridge/groups') {
+                if (topic === baseTopic + '/bridge/groups') {
                     const msg = JSON.parse(payload)
                     const groups = {}
                     Object.values(msg).forEach(group => groups[group.id] = self.prepareGroup(group))
@@ -263,7 +220,7 @@ function create({hub}) {
                     self.group = groups
                     return
                 }
-                if (topic === 'zigbee2mqtt/bridge/event') {
+                if (topic === baseTopic + '/bridge/event') {
                     const msg = JSON.parse(payload)
                     //console.log(topic, msg)
                     if (msg.type && msg.type == 'device_leave') {
@@ -293,7 +250,7 @@ function create({hub}) {
                         }
                     }
                 }
-                if (topic === 'zigbee2mqtt/bridge/response/device/remove') {
+                if (topic === baseTopic + '/bridge/response/device/remove') {
                     const msg = JSON.parse(payload)
                     //console.log(topic, msg)
                     if (msg.status == 'error') {
@@ -306,7 +263,7 @@ function create({hub}) {
                     }
                     return
                 }
-                if (topic === 'zigbee2mqtt/bridge/response/device/rename') {
+                if (topic === baseTopic + '/bridge/response/device/rename') {
                     const msg = JSON.parse(payload)
                     if (msg.status == 'error') {
                         hub().notify({subtitle: msg.error, level: 'error'})
@@ -318,7 +275,7 @@ function create({hub}) {
                     }
                     return
                 }
-                if (topic === 'zigbee2mqtt/bridge/response/device/options') {
+                if (topic === baseTopic + '/bridge/response/device/options') {
                     const msg = JSON.parse(payload)
                     if (msg.status == 'error') {
                         hub().notify({subtitle: msg.error, level: 'error'})
@@ -341,7 +298,7 @@ function create({hub}) {
                     const friendly_name = matches[1]
                     try {
                         const msg = JSON.parse(payload)
-                        console.log("Setting payload", topic, matches, friendly_name, msg)
+                        //console.log("Setting payload", topic, matches, friendly_name, msg)
                         self.payloads[friendly_name] = msg
                     } catch(error) {
                         console.log(topic, payload.toString(), packet)
@@ -351,11 +308,12 @@ function create({hub}) {
                 }
             })
 
-            client.subscribe('zigbee2mqtt/bridge/+')
-            client.subscribe('zigbee2mqtt/bridge/response/device/remove')
-            client.subscribe('zigbee2mqtt/bridge/response/device/rename')
-            client.subscribe('zigbee2mqtt/bridge/response/device/options')
-            client.subscribe('zigbee2mqtt/+')
+            console.log("Base topic", baseTopic)
+            client.subscribe(baseTopic + '/bridge/+')
+            client.subscribe(baseTopic + '/bridge/response/device/remove')
+            client.subscribe(baseTopic + '/bridge/response/device/rename')
+            client.subscribe(baseTopic + '/bridge/response/device/options')
+            client.subscribe(baseTopic + '/+')
         },
 
         async connect() {
@@ -441,11 +399,13 @@ function create({hub}) {
 
         startSearch() {
             if (!client) return
-            client.publish('zigbee2mqtt/bridge/request/permit_join', JSON.stringify({value: true}))
+            const baseTopic = hub().connectionInfo.baseTopic
+            client.publish(baseTopic + '/bridge/request/permit_join', JSON.stringify({value: true}))
         },
         stopSearch() {
             if (!client) return
-            client.publish('zigbee2mqtt/bridge/request/permit_join', JSON.stringify({value: false}))
+            const baseTopic = hub().connectionInfo.baseTopic
+            client.publish(baseTopic + '/bridge/request/permit_join', JSON.stringify({value: false}))
         },
 
     })
@@ -463,5 +423,6 @@ export default {
     hubPage: () => HubPage,
     connectionInfo: () => ({
         address: '',
+        baseTopic: 'zigbee2mqtt',
     })
 }

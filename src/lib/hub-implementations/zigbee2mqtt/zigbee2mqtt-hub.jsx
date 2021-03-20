@@ -10,7 +10,15 @@ export default view(({ connectionInfo, onChange }) => {
     })
   }
 
-  const address = connectionInfo.address || ''
+  function handleTopicChanged(e) {
+    onChange({
+      ...connectionInfo,
+      baseTopic: e.target.value
+    })
+  }
+
+  const address = connectionInfo.address ?? ''
+  const baseTopic = connectionInfo.baseTopic ?? 'zigbee2mqtt'
 
   return (
     <List>
@@ -22,6 +30,15 @@ export default view(({ connectionInfo, onChange }) => {
           floatingLabel
           onInput={handleAddressChanged}
           onChange={handleAddressChanged}
+      />
+      <ListInput
+          type="text"
+          value={baseTopic}
+          placeholder="zigbee2mqtt"
+          label="Base topic"
+          floatingLabel
+          onInput={handleTopicChanged}
+          onChange={handleTopicChanged}
       />
     </List>
   )

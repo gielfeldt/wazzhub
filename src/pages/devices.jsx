@@ -4,33 +4,6 @@ import { Page, Navbar, List, Link, Icon, Preloader, ListItem } from 'framework7-
 import DeviceItem from '../components/device'
 import wazzhub from '../lib/hubs'
 import './devices.css'
-import device from '../components/device';
-import uuid from 'uuid';
-
-const TestSubItem = view(({info}) => {
-  const payload = info.payload()
-  //const device = info.device()
-  const options = info.options()
-  console.log("Rendering device really", info)
-  // {JSON.stringify(device)}
-  return (<pre>
-    {JSON.stringify(options)}
-    {JSON.stringify(payload)}
-  </pre>)
-})
-
-const TestItem = view(({device}) => {
-  console.log("Rendering device")
-  //const info = device.info()
-  return (
-    <React.Fragment>
-      zxczxc
-      <div slot="title">{device.id}</div>
-      <div slot="subtitle">{device.name}</div>
-    </React.Fragment>
-  )
-  //return useMemo(() => (<TestSubItem info={info} />), [info.payload(), info.options()])
-})
 
 export default view(({ f7router }) => {
   console.log("Rendering devices")
@@ -72,6 +45,9 @@ export default view(({ f7router }) => {
       {oldDevices.map(device => (
         <DeviceItem key={device.hub().type + '_' + device.id} device={device} f7router={f7router} slot="list" />
       ))}
+    </List>
+    <List>
+      <ListItem divider></ListItem>
     </List>
   </Page>
   )

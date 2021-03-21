@@ -87,7 +87,7 @@ function create({hub}) {
 
                 // Components
                 //deviceItem: DeviceItem,
-                //editDevicePage: () => DevicePage,
+                editDevicePage: () => DevicePage,
                 deviceStats: () => DeviceStats,
                 deviceControls: () => DeviceControls,
 

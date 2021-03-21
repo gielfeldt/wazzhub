@@ -3,7 +3,7 @@ import { view } from '@risingstack/react-easy-state';
 import { List, Page, Navbar, Link, ListInput, ListItem, ListButton, Icon } from 'framework7-react';
 
 export default view(({ device, hub, f7router }) => {
-  const options = device.deviceInfo.options()
+  const options = device.options()
   console.log("options", options)
 
   const [name, setName] = useState(device.name)
@@ -12,10 +12,10 @@ export default view(({ device, hub, f7router }) => {
   function save() {
     console.log(device.name, name)
     if (device.name !== name) {
-      hub.connection().renameDevice(device.id, name)
+      device.actions().rename(device.id, name)
     }
-    if (options.retain != retain) {
-      hub.connection().setRetain(device.id, retain)
+    if (!!options.retain != retain) {
+      device.actions().retain(retain)
     }
     f7router.back({transition: 'f7-dive'})
   }
@@ -23,7 +23,7 @@ export default view(({ device, hub, f7router }) => {
   function removeDevice() {
     const app = f7router.app
     app.dialog.confirm(`Are you sure you want to remove ${name}?`, 'Remove', () => {
-      device.actions.remove()
+      device.actions().remove()
       f7router.back({transition: 'f7-dive'})
     })
   }
@@ -31,7 +31,7 @@ export default view(({ device, hub, f7router }) => {
   function forceRemoveDevice() {
     const app = f7router.app
     app.dialog.confirm(`Are you sure you want to forcefully remove ${name}?`, 'Remove', () => {
-      device.actions.forceRemove()
+      device.actions().forceRemove()
       f7router.back({transition: 'f7-dive'})
     })
   }
@@ -44,6 +44,7 @@ export default view(({ device, hub, f7router }) => {
       <List>
         <ListInput
           label="Friendly name"
+          floatlingLabel
           value={name}
           type="text"
           placeholder="Friendly name of device"

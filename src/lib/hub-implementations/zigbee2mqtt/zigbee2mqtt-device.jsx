@@ -12,7 +12,7 @@ export default view(({ device, hub, f7router }) => {
   function save() {
     console.log(device.name, name)
     if (device.name !== name) {
-      device.actions().rename(device.id, name)
+      device.actions().rename(name)
     }
     if (!!options.retain != retain) {
       device.actions().retain(retain)

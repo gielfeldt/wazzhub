@@ -55,8 +55,17 @@ function create({hub}) {
                 setState: (state) => console.log("set state", device.friendly_name, state),
                 remove: () => client.publish(baseTopic + '/bridge/request/device/remove', JSON.stringify({id: device.ieee_address, force: false})),
                 forceRemove: () => client.publish(baseTopic + '/bridge/request/device/remove', JSON.stringify({id: device.ieee_address, force: true})),
-                rename: (name) => console.log("rename", device.friendly_name, name),
-                retain: (retain) => console.log("retain", device.friendly_name, retain),
+                //rename: (name) => console.log("rename", device.friendly_name, name),
+                //retain: (retain) => console.log("retain", device.friendly_name, retain),
+                rename: (name) => {
+                    console.log(`Renaming ${device.ieee_address} to ${name}`)
+                    hub().notify({text: `Renaming ${device.ieee_address} to ${name}`})
+                    client.publish(baseTopic + '/bridge/request/device/rename', JSON.stringify({from: device.ieee_address, to: name}))
+                },
+                retain: (retain) => {
+                    hub().notify({text: (retain ? 'Retaining' : 'Stop retaining') + ` messages for ${device.ieee_address}`})
+                    client.publish(baseTopic + '/bridge/request/device/options', JSON.stringify({id: device.ieee_address, options: { retain }}))
+                },
             }
             /*
             return {

@@ -36,6 +36,8 @@ export default view(({ device }) => {
     const temperature = (payload && 'temperature' in payload) ? payload.temperature : null
     const best_temperature = local_temperature || temperature || null
 
+    const battery_icon = battery >= 50 ? 'f7:battery_100' : battery >= 25 ? 'f7:battery_25' : 'f7:battery_0'
+
     return (
         <>
             <span></span>
@@ -44,7 +46,7 @@ export default view(({ device }) => {
                 <div className="value-subscript">{linkquality}</div>
             </span>)}
             {battery !== null && (<span className="device-stats">
-                <Icon ios="f7:battery_100" aurora="f7:battery_100" md="f7:battery_100" color="blue" />
+                <Icon ios={battery_icon} aurora={battery_icon} md={battery_icon} color="blue" />
                 <div className="value-subscript">{battery}</div>
             </span>)}
             {state !== null && (<span className="device-stats">
@@ -58,11 +60,11 @@ export default view(({ device }) => {
             </span>)}
             {best_temperature !== null && (<span className="device-stats">
                 <Icon ios="f7:thermometer" aurora="f7:thermometer" md="f7:thermometer" color="blue" />
-                <div className="value-subscript">{best_temperature}</div>
+                <div className="value-subscript">{best_temperature.toFixed(1)}</div>
             </span>)}
             {occupied_heating_setpoint !== null && (<span className="device-stats">
                 <Icon ios="f7:thermometer_sun" aurora="f7:thermometer_sun" md="f7:thermometer_sun" color="blue" />
-                <div className="value-subscript">{occupied_heating_setpoint}</div>
+                <div className="value-subscript">{occupied_heating_setpoint.toFixed(1)}</div>
             </span>)}
             {water_leak !== null && (<span className="device-stats">
                 {water_leak && (<Icon ios="f7:drop_fill" aurora="f7:drop_fill" md="f7:drop_fill" color="red" />)}

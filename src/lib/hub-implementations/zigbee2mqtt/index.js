@@ -93,6 +93,7 @@ function create({hub}) {
                 name: z2mDevice.friendly_name,
                 isNew: z2mDevice.ieee_address === z2mDevice.friendly_name,
                 imageUrl: imageUrl(z2mDevice),
+                group: () => Object.values(self.group).find(group => group.members.includes(z2mDevice.ieee_address)),
 
                 // Components
                 //deviceItem: DeviceItem,

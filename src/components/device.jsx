@@ -10,7 +10,9 @@ export default view(({ device, f7router }) => {
 
   const noImageUrl = null
   const groupColor = 'grey'
-  const groupName = null
+  const group = device.group()
+  //console.log(group)
+  const groupName = group && group.name
 
   return (
     <ListItem

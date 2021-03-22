@@ -6,7 +6,7 @@ import './zigbee2mqtt-device-stats.css'
 const FadeOut = ({children}) => {
     const actionEl = useRef(null);
 
-    console.log("Action changed")
+    //console.log("Action changed")
 
     useEffect(() => {
         actionEl.current.className = "show"
@@ -20,7 +20,7 @@ const FadeOut = ({children}) => {
 }
 
 export default view(({ device }) => {
-    console.log("device stats", device)
+    //console.log("device stats", device)
     const payload = device.payload()
 
     const linkquality = (payload && 'linkquality' in payload) ? payload.linkquality : null

@@ -3,12 +3,8 @@ import { view } from '@risingstack/react-easy-state';
 import { ListItem,Badge } from 'framework7-react';
 
 export default view(({ device, f7router }) => {
-  console.log("Rendering", device)
+  //console.log("Rendering", device)
   const hub = device.hub()
-
-  function editPage(device) {
-    f7router.navigate('/device/', {props: {device, hub: hub}})
-  }
 
   const DeviceStats = 'deviceStats' in device ? device.deviceStats() : null
 
@@ -18,13 +14,14 @@ export default view(({ device, f7router }) => {
 
   return (
     <ListItem
-      noChevron
+      chevronCenter
       badgeColor={groupColor}
       badge={groupName}
       mediaItem
       key={device.id}
       slot="list"
-      onClick={() => editPage(device)}
+      link="#"
+      onClick={() => f7router.navigate('/device/', {props: {device}})}
     >
       <div slot="media">
         <Badge className="badge-overlay" color={hub.color()}>{hub.name}</Badge>

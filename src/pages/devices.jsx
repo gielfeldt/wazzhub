@@ -36,19 +36,18 @@ export default view(({ f7router }) => {
       </Link>
       {wazzhub.searching && (<Preloader slot="left" size={28} color="blue" />)}
     </Navbar>
-    <List>
+    <List></List>
+    {newDevices.length > 0 && (<List>
       {newDevices.map(device => (
         <DeviceItem key={device.hub().type + '_' + device.id} device={device} f7router={f7router} slot="list" />
       ))}
-    </List>
-    <List>
+    </List>)}
+    {oldDevices.length > 0 && (<List>
       {oldDevices.map(device => (
         <DeviceItem key={device.hub().type + '_' + device.id} device={device} f7router={f7router} slot="list" />
       ))}
-    </List>
-    <List>
-      <ListItem divider></ListItem>
-    </List>
+    </List>)}
+    <List></List>
   </Page>
   )
 });

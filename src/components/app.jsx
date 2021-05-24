@@ -29,7 +29,7 @@ export default () => {
 
         <View xhrCache={false} animate={true} id="view-hubs" main tab tabActive url="/hubs/" />
         <View xhrCache={false} animate={true} id="view-devices" tab url="/devices/" />
-        {/*<View xhrCache={false} animate={true} id="view-groups" tab url="/groups/" />*/}
+        <View xhrCache={false} animate={true} id="view-groups" tab url="/groups/" />
       </Views>
     </App>
   )

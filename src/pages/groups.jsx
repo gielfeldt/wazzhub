@@ -13,13 +13,15 @@ export default view(({ f7router }) => {
     return 0
   }
 
-  function addGroup(type) {
-    const hub =  wazzhub.newHub(type)
-    f7router.navigate(`/hubs/${hub.id}/edit`, {props: { isNew: true, hub: { ...hub }}})
+  function addGroup(hub) {
+    console.log(hub)
+    // f7router.navigate(`/hubs/${hub.id}/edit`, {props: { isNew: true, hub: { ...hub }}})
   }
 
   const groups = wazzhub.groups.filter(i => true).sort(byName)
   console.log(groups)
+
+  const hubs = wazzhub.all
 
   return (
     <Page name="groups">
@@ -31,22 +33,22 @@ export default view(({ f7router }) => {
         ))}
       </List>
       <List inset>
-        {wazzhub.hubTypes.length > 1 && (
+        {hubs.length > 1 && (
           <ListButton actionsOpen="#actions-select-type-group">
             <Icon ios="f7:plus_circle" aurora="f7:plus_circle" md="f7:plus_circle" />  Add group
           </ListButton>
         )}
-        {wazzhub.hubTypes.length == 1 && (
-          <ListButton onClick={() => addHub(wazzhub.hubTypes[0][0])}>
+        {hubs.length == 1 && (
+          <ListButton onClick={() => addGroup(hubs[0])}>
             <Icon ios="f7:plus_circle" aurora="f7:plus_circle" md="f7:plus_circle" />  Add group
           </ListButton>
         )}
       </List>
-      {wazzhub.hubTypes.length > 1 && (<Actions id="actions-select-type-group">
+      {hubs.length > 1 && (<Actions id="actions-select-type-group">
         <ActionsGroup>
           <ActionsLabel>Add group to hub ...</ActionsLabel>
-          {wazzhub.hubTypes.map(([hubTypeKey, hubType]) => (
-            <ActionsButton key={hubTypeKey} onClick={() => addGroup(hubTypeKey)}>{hubType.label()}</ActionsButton>
+          {hubs.map((hub) => (
+            <ActionsButton key={hub.id} onClick={() => addGroup(hub)}>{hub.name}</ActionsButton>
           ))}
           <ActionsButton color="red">Cancel</ActionsButton>
         </ActionsGroup>

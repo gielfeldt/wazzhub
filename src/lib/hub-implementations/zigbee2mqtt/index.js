@@ -47,6 +47,12 @@ function create({hub}) {
             return Object.values(self.group)
         },
 
+        addGroup(friendly_name) {
+            const baseTopic = hub().connectionInfo.baseTopic
+            hub().notify({text: `Adding group ${friendly_name}`})
+            client.publish(baseTopic + '/bridge/request/group/add', JSON.stringify({friendly_name}))
+        },
+
         deviceActions(device) {
             const baseTopic = hub().connectionInfo.baseTopic
             //const topic = baseTopic + '/' + device.friendly_name + '/set'
@@ -99,7 +105,7 @@ function create({hub}) {
                 //deviceItem: DeviceItem,
                 editDevicePage: () => DevicePage,
                 deviceStats: () => DeviceStats,
-                deviceControls: () => DeviceControls,
+                //deviceControls: () => DeviceControls,
 
                 // Internal (private)
                 //info: () => self.deviceInfo(z2mDevice),
@@ -109,10 +115,6 @@ function create({hub}) {
                 supported: z2mDevice.supported,
                 hash: objectHash(z2mDevice),
             }
-            prepared.deviceStats = () => DeviceStats
-            prepared.deviceControls = () => DeviceControls
-
-            return prepared
         },
 
         prepareGroup(group) {

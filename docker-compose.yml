@@ -2,7 +2,7 @@ version: '3.5'
 
 services:
   ui:
-    image: node:15.8.0
+    image: node:16.20.0
     working_dir: /app
     command: npm start
     #command: sleep infinity

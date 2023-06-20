@@ -1,4 +1,4 @@
-FROM node:15.8.0 AS build
+FROM node:16.20.0 AS build
 
 WORKDIR /build
 COPY src /build/src
